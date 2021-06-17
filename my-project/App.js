@@ -25,14 +25,16 @@ export default function App() {
     );
   };
 
-  return (
+  console.log(new Date());
+
+  return (    
     <View style={styles.centeredView}>
       <Pressable
         style={[styles.button, styles.buttonOpen]}
         onPress={() => {
           setModalVisible(true);
         }}>
-        <Text style={styles.textStyle}>new task</Text>
+        <Text style={styles.textStyle}>タスクを入力</Text>
       </Pressable>
 
       <Modal
@@ -40,10 +42,8 @@ export default function App() {
         transparent={true}
         visible={modalVisible}
         onRequestClose={() => {
-          setModalVisible((premodalVisible) => {
-            return [...premodalVisible, modalVisible];
-          });
           Alert.alert('Modal has been closed.');
+          setModalVisible(!modalVisible);
         }}>
         <View style={styles.centeredView}>
           <View style={styles.modalView}>
@@ -55,21 +55,21 @@ export default function App() {
               }}
               value={inputTask}
             />
-            <View >
+            <View style={styles.buttonLayout}>
               <Pressable
-                style={[styles.button, styles.buttonstyle]}
+                style={[styles.button, styles.buttonOpen]}
                 onPress={() => {
                   setModalVisible(false);
                   setTasks((prevTask) => [...prevTask, inputTask]);
                   setInputTask('')
                 }}>
-                <Text style={styles.textStyle}>ok</Text>
+                <Text style={styles.textStyle}>追加</Text>
               </Pressable>
 
               <Pressable
-                style={[styles.button, styles.buttonstyle]}
-                onPress={() => setModalVisible(!modalVisible)}>
-                <Text style={styles.textStyle}>cancel</Text>
+                style={[styles.button, styles.buttonClose]}
+                onPress={(modalVisible) => !modalVisible}>
+                <Text style={styles.textStyle}>キャンセル</Text>
               </Pressable>
             </View>
           </View>
@@ -104,7 +104,7 @@ const styles = StyleSheet.create({
     padding: 10,
     borderRadius: 5,
   },
-  list: { flex: 1, width: '80%', marginTop: 24 },
+  list: { flex: 1, width: '100%', marginTop: 24 },
   centeredView: {
     flex: 1,
     justifyContent: "center",
@@ -123,27 +123,24 @@ const styles = StyleSheet.create({
       height: 2
     },
     shadowOpacity: 0.25,
-    shadowRadius: 3.84,
+    shadowRadius: 4,
     elevation: 5
   },
-  openButton: {
-    backgroundColor: "#F194FF",
+  button: {
     borderRadius: 20,
     padding: 10,
-    elevation: 2
+    elevation: 2,
+  },
+  buttonOpen: {
+    backgroundColor: "#2196F3",
+  },
+  buttonClose: {
+    backgroundColor: "#2196F3",
   },
   textStyle: {
-    color: "blue",
+    color: "white",
     fontWeight: "bold",
     textAlign: "center"
   },
-  modalText: {
-    marginBottom: 15,
-    textAlign: "center"
-  },
-  buttonstyle: {
-    backgroundColor: "#2196F3",
-    borderRadius: 5,
-  },
-  
+  
 });
